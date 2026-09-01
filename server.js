@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Correct instantiation syntax for the official Google SDK
+// Correct initialization format for Google's newest GenAI SDK
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 app.post('/api/ask', async (req, res) => {
@@ -18,8 +18,8 @@ app.post('/api/ask', async (req, res) => {
         });
         res.json({ text: response.text });
     } catch (error) {
-        console.error("Gemini Error:", error);
-        res.status(500).json({ error: "Failed to fetch response from Gemini." });
+        console.error(error);
+        res.status(500).json({ error: "API execution error" });
     }
 });
 
@@ -30,16 +30,16 @@ app.post('/api/vision', async (req, res) => {
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
             contents: [
-                prompt || "Describe what you see in 2 concise sentences.",
+                prompt || "Describe what you see in 2 sentences.",
                 { inlineData: { mimeType: "image/jpeg", data: cleanedBase64 } }
             ],
         });
         res.json({ text: response.text });
     } catch (error) {
-        console.error("Vision Error:", error);
-        res.status(500).json({ error: "Vision error." });
+        console.error(error);
+        res.status(500).json({ error: "Vision frame error" });
     }
 });
 
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, '0.0.0.0', () => console.log(`Server live on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server executing on port ${PORT}`));
