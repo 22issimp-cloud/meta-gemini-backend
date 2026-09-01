@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { GoogleGenAI } from '@google/genai';
-
+import { GoogleGenAI } from '@google/generative-ai';
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
